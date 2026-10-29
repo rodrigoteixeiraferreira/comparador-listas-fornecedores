@@ -1,6 +1,6 @@
 # A bateria inteira a cada envio: o gerador, o extrator, os leitores, o portão (51 corrupções) e a prova no banco
-# (zero par confirmado errado em 5 mundos fictícios). O banco é o Supabase local, em Docker, com as migrações do
-# repositório.
+# (zero par confirmado errado em 5 mundos fictícios; as views e os botões do painel). O banco é o Supabase local, em
+# Docker, com as migrações do repositório. E o painel: os tipos (os três dicionários com as mesmas chaves) e o build.
 name: testes
 
 on:
@@ -36,3 +36,31 @@ jobs:
 
       - name: Testes
         run: pytest -ra
+
+  panel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: web
+    env:
+      # o build não chama o banco (as páginas abrem só com login); a URL e a chave só precisam existir
+      NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54321
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sem-chave-no-ci
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Dependências
+        run: npm ci
+
+      - name: Tipos, com os três dicionários iguais em chaves
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build

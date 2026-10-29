@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+/* Só o tema escuro: fundo grafite, destaque dourado. As cores têm nome de papel, não de tom. */
+@theme {
+  --color-bg: #121417;
+  --color-surface: #1a1d21;
+  --color-surface-2: #22262b;
+  --color-line: #2b3036;
+  --color-line-strong: #3a4047;
+  --color-ink: #ede6d8;
+  --color-ink-2: #b6afa2;
+  --color-ink-3: #8e887d;
+  --color-accent: #e2a84e;
+  --color-accent-ink: #1b1406;
+  --color-accent-soft: #3a2f1b;
+  --color-good: #7fc59c;
+  --color-good-soft: #1c3226;
+  --color-bad: #ef8d70;
+  --color-bad-soft: #3b231c;
+  --color-note: #e9c873;
+  --color-note-soft: #39321c;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-feature-settings: "tnum" 1;
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}

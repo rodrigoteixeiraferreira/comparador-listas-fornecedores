@@ -1,0 +1,90 @@
+kind,term,canonical,type_code
+type,YERBA,yerba_mate,
+type,YBA MATE,yerba_mate,
+type,GALLETITAS,cookies,
+type,GALLET,cookies,
+type,GALL DULCES,cookies,
+type,GALLETITAS AGUA,crackers,
+type,GALLET AGUA,crackers,
+type,GALL AGUA,crackers,
+type,ACEITE GIRASOL,sunflower_oil,
+type,ACEIT GIRAS,sunflower_oil,
+type,AC GIRASOL,sunflower_oil,
+type,FIDEOS,pasta,
+type,FIDEO,pasta,
+type,FID SECOS,pasta,
+type,AZUC,sugar,
+type,HARINA,flour,
+type,HNA TRIGO,flour,
+type,LECHE UAT,milk,
+type,LECHE L.VIDA,milk,
+type,LECHE LV,milk,
+type,MAYON,mayonnaise,
+type,DULCE LECHE,dulce_de_leche,
+type,D.LECHE,dulce_de_leche,
+type,PURE TOMATE,tomato_puree,
+type,PURE TOM,tomato_puree,
+type,CAFE MOL,ground_coffee,
+type,TE,tea_bags,
+type,TE SAQ,tea_bags,
+type,GSA COLA,cola,
+type,AGUA,water,
+type,AGUA MIN,water,
+type,CERV,beer,
+type,DETERG,dish_soap,
+type,LAVAND,bleach,
+type,JABON POLVO,laundry_powder,
+type,JAB POLVO,laundry_powder,
+variety,TRAD,traditional,yerba_mate
+variety,COMP,with_herbs,yerba_mate
+variety,COMPUEST,with_herbs,yerba_mate
+variety,CHOC,chocolate,cookies
+variety,CHOCO,chocolate,cookies
+variety,VAIN,vanilla,cookies
+variety,LIM,lemon,cookies
+variety,CLAS,classic,crackers
+variety,INTEG,whole_wheat,crackers
+variety,L.FINO,long_grain,rice
+variety,INTEG,brown,rice
+variety,PARB,parboiled,rice
+variety,SPAG,spaghetti,pasta
+variety,TIRAB,fusilli,pasta
+variety,MOSTACH,penne,pasta
+variety,LEUD,self_rising,flour
+variety,ENT,whole,milk
+variety,DESCR,skim,milk
+variety,DESC,skim,milk
+variety,CLAS,classic,mayonnaise
+variety,CLAS,classic,dulce_de_leche
+variety,REPOST,baking,dulce_de_leche
+variety,AL NAT,in_water,tuna
+variety,NAT,in_water,tuna
+variety,EN AC,in_oil,tuna
+variety,CLAS,classic,ground_coffee
+variety,TORR,sugar_roasted,ground_coffee
+variety,NEG,black,tea_bags
+variety,S/GAS,still,water
+variety,C/GAS,sparkling,water
+variety,LIM,lemon,dish_soap
+variety,HAMB,hamburger,buns
+brand,T.LUNAS,tres_lunas,
+brand,3 LUNAS,tres_lunas,
+brand,SOL CLARO,solclaro,
+brand,A.MANSO,arroyo_manso,
+brand,D.TOMASA,dona_tomasa,
+brand,M.CELESTE,molino_celeste,
+brand,P.MORA,piedra_mora,
+brand,PRADO LUZ,pradoluz,
+brand,CUMBRE FRIA,cumbrefria,
+brand,FONTE SUR,fontesur,
+brand,C.NUBLADO,cerro_nublado,
+brand,B.AUSTRAL,brisa_austral,
+noise,OFERTA,,
+noise,PROMO,,
+noise,NUEVO,,
+noise,NUEVA,,
+noise,PET,,
+noise,LATA,,
+noise,BOTELLA,,
+noise,DOYPACK,,
+noise,BOLSA,,

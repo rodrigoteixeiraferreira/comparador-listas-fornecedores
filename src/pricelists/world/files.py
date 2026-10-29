@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import csv
+from collections.abc import Callable
 from pathlib import Path
 
 from fpdf import FPDF
@@ -15,7 +16,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Font
 
 from ..reference import Reference, load
-from .build import PriceList, World
+from .build import ListLine, PriceList, World
 from .spec import MONTH_NAMES_ES
 
 
@@ -25,12 +26,23 @@ def write_world(world: World, out: Path, ref: Reference | None = None) -> list[P
     (out / "answer_key").mkdir(parents=True, exist_ok=True)
     written = [_write_catalog(world, out / "catalog.csv")]
     for price_list in world.lists:
-        fmt = ref.suppliers[price_list.supplier].file_format
-        path = out / "lists" / f"{price_list.name}.{fmt}"
-        (_write_xlsx if fmt == "xlsx" else _write_pdf)(price_list, path, ref)
-        written.append(path)
+        written.append(write_list(price_list, out / "lists", ref))
     written += _write_answer_key(world, out / "answer_key")
     return written
+
+
+def write_list(price_list: PriceList, folder: Path, ref: Reference | None = None,
+               price_text: Callable[[ListLine], str] | None = None) -> Path:
+    """Uma lista no formato do fornecedor. `price_text` muda como o preço sai no PDF (para as corrupções)."""
+    ref = ref or load()
+    fmt = ref.suppliers[price_list.supplier].file_format
+    path = folder / f"{price_list.name}.{fmt}"
+    folder.mkdir(parents=True, exist_ok=True)
+    if fmt == "xlsx":
+        _write_xlsx(price_list, path, ref)
+    else:
+        _write_pdf(price_list, path, ref, price_text or (lambda line: _ars(line.price)))
+    return path
 
 
 def _write_catalog(world: World, path: Path) -> Path:
@@ -117,7 +129,7 @@ class _AndinaPdf(FPDF):
         self.cell(0, 5, f"Pagina {self.page_no()}", align="C")
 
 
-def _write_pdf(price_list: PriceList, path: Path, ref: Reference) -> None:
+def _write_pdf(price_list: PriceList, path: Path, ref: Reference, price_text: Callable[[ListLine], str]) -> None:
     """A Distribuidora Andina manda PDF: preço com IVA, por seção; a linha com CAJA tem o preço da caixa."""
     name = ref.suppliers[price_list.supplier].name.upper()
     pdf = _AndinaPdf(f"{name} - LISTA DE PRECIOS {MONTH_NAMES_ES[price_list.period]}",
@@ -133,5 +145,5 @@ def _write_pdf(price_list: PriceList, path: Path, ref: Reference) -> None:
         pdf.set_font("Helvetica", "", 9)
         pdf.cell(22, 5, line.supplier_code)
         pdf.cell(128, 5, line.description)
-        pdf.cell(30, 5, _ars(line.price), align="R", new_x="LMARGIN", new_y="NEXT")
+        pdf.cell(30, 5, price_text(line), align="R", new_x="LMARGIN", new_y="NEXT")
     pdf.output(str(path))

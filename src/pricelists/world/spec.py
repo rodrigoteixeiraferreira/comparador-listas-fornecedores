@@ -144,7 +144,23 @@ ANDINA = Writing(
     noise=("PET", "LATA", "BOTELLA", "DOYPACK", "BOLSA"),
 )
 
-WRITINGS = {"mayorista_norte": NORTE, "distribuidora_andina": ANDINA}
+# O Mercantil Ombú imprime a lista e manda a foto: por extenso, em maiúsculas e minúsculas, «Yerba Tres Lunas 1 kg».
+OMBU = Writing(
+    types={k: v[:1] for k, v in NORTE.types.items()},
+    varieties={},
+    brands={},
+    unknown_types={"cookies": ("GLTS",), "beer": ("CRVZ",)},
+    noise=(),
+)
+
+WRITINGS = {"mayorista_norte": NORTE, "distribuidora_andina": ANDINA, "mercantil_ombu": OMBU}
 
 PERIODS = ("2026-09", "2026-10")
+
+# quem manda lista em que mês, e quanto do mercado cada um vende (o da foto é pequeno e só chega em outubro)
+SCHEDULE = {
+    "mayorista_norte": {"periods": PERIODS, "inflation": 1.04, "price_level": 0.96, "shares": (0.65, 0.25, 4)},
+    "distribuidora_andina": {"periods": PERIODS, "inflation": 1.035, "price_level": 1.0, "shares": (0.65, 0.25, 4)},
+    "mercantil_ombu": {"periods": PERIODS[1:], "inflation": 1.0, "price_level": 0.98, "shares": (0.22, 0.1, 2)},
+}
 MONTH_NAMES_ES = {"2026-09": "SEPTIEMBRE 2026", "2026-10": "OCTUBRE 2026"}

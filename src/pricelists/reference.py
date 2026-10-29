@@ -54,6 +54,10 @@ class Supplier:
     file_format: str
     prices_include_vat: bool
 
+    @property
+    def extension(self) -> str:
+        return {"image": "jpg"}.get(self.file_format, self.file_format)
+
 
 @dataclass(frozen=True)
 class Reference:

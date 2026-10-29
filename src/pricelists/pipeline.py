@@ -10,19 +10,23 @@ from __future__ import annotations
 
 import argparse
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 
 import psycopg
 
+from .ai_reader import has_reading
+from .audit import run_audit
 from .db import ROOT, connect
 from .load import load_catalog, process_list, run_cascade, seed_reference
 from .migrate import apply_pending
 from .reference import load
 from .world import World, build_world, write_world
-from .world.spec import PERIODS, WRITINGS
+from .world.spec import PERIODS, SCHEDULE
 
-DATA_TABLES = ("candidate", "match", "list_line", "price_list", "equivalence", "rejection", "product")
+DATA_TABLES = ("audit_item", "audit_round", "reading_disagreement", "candidate", "match", "list_line", "price_list",
+               "equivalence", "rejection", "product")
 REVIEWER = "revisor simulado"
 
 
@@ -42,6 +46,10 @@ class Score:
     @property
     def coverage(self) -> float:
         return (self.confirmed - len(self.wrong)) / self.store_has if self.store_has else 0.0
+
+
+def _list_key(conn: psycopg.Connection, list_id: int) -> tuple[str, str]:
+    return conn.execute("select supplier_code, period from public.price_list where id = %s", (list_id,)).fetchone()
 
 
 def truth(world: World, supplier: str, period: str) -> dict[str, int | None]:
@@ -95,7 +103,10 @@ def simulate_review(conn: psycopg.Connection, list_id: int, answer: dict[str, in
 
 
 def reset_data(conn: psycopg.Connection) -> None:
+    """Apaga os dados e devolve as regras ao modo de partida (as duas experimentais em teste)."""
     conn.execute("truncate " + ", ".join(f"public.{t}" for t in DATA_TABLES) + " restart identity cascade")
+    conn.execute("update public.decision_rule set mode = case when code in ('price_doubt_identity', "
+                 "'high_similarity') then 'trial' else 'on' end, evidence = null, changed_at = now()")
 
 
 def run(conn: psycopg.Connection, world: World, folder: Path, review: bool = True, out=print) -> list[dict]:
@@ -107,18 +118,41 @@ def run(conn: psycopg.Connection, world: World, folder: Path, review: bool = Tru
     report = []
     for i, period in enumerate(PERIODS):
         if i > 0 and review:
-            for supplier in WRITINGS:
-                list_id = conn.execute("select id from public.price_list where supplier_code = %s and period = %s",
-                                       (supplier, PERIODS[i - 1])).fetchone()[0]
+            for (list_id, supplier) in conn.execute(
+                    "select id, supplier_code from public.price_list where period = %s and status = 'active' "
+                    "order by id", (PERIODS[i - 1],)).fetchall():
                 n = simulate_review(conn, list_id, truth(world, supplier, PERIODS[i - 1]))
                 out(f"  revisão de {supplier} {PERIODS[i - 1]}: {n} decisões gravadas")
-        for supplier in WRITINGS:
-            path = folder / "lists" / f"{supplier}_{period}.{ref.suppliers[supplier].file_format}"
+        for supplier, plan in SCHEDULE.items():
+            if period not in plan["periods"]:
+                continue
+            path = folder / "lists" / f"{supplier}_{period}.{ref.suppliers[supplier].extension}"
+            if ref.suppliers[supplier].file_format == "image" and not has_reading(path):
+                out(f"  {path.name}: sem leitura de IA gravada para esta foto (só a vitrine, semente 1, tem); pulada")
+                continue
             result = process_list(conn, path, supplier)
             result["score"] = score(conn, result["list_id"], truth(world, supplier, period))
             report.append(result)
             _print_list(result, out)
     return report
+
+
+def answer_from_key(conn: psycopg.Connection, world: World) -> Callable[[int, int], bool]:
+    """O auditor simulado: responde cada item da amostra pelo gabarito, como uma pessoa que não erra."""
+    def answer(list_line_id: int, product_id: int) -> bool:
+        supplier, period, code = conn.execute(
+            "select pl.supplier_code, pl.period, l.item_code from public.list_line l "
+            "join public.price_list pl on pl.id = l.price_list_id where l.id = %s", (list_line_id,)).fetchone()
+        return truth(world, supplier, period).get(code) == product_id
+    return answer
+
+
+def print_audit(results, out=print) -> None:
+    out("  auditoria por amostra (limite: 2% de erro observado):")
+    for r in results:
+        change = "" if r.mode_after == r.mode_before else f" -> {r.mode_after.upper()}"
+        out(f"    {r.rule:22} {r.mode_before:5}{change:7} amostra {r.sample:3} de {r.population:3}; erros {r.errors}; "
+            f"observado {r.observed:.1%}; até {r.upper_95:.1%} com 95% de confiança")
 
 
 def _print_list(r: dict, out) -> None:
@@ -143,6 +177,7 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=1)
     parser.add_argument("--dry-run", action="store_true", help="faz tudo numa transação e desfaz no fim")
     parser.add_argument("--no-review", action="store_true", help="sem o revisor simulado entre os meses")
+    parser.add_argument("--no-audit", action="store_true", help="sem a auditoria por amostra no fim")
     args = parser.parse_args()
     folder = ROOT / "generated" / f"seed-{args.seed}"
     world = build_world(args.seed)
@@ -156,6 +191,11 @@ def main() -> None:
         report = run(conn, world, folder, review=not args.no_review)
         wrong = sum(len(r["score"].wrong) for r in report)
         print(f"pares confirmados errados, todas as listas: {wrong}")
+        if not args.no_audit:
+            print_audit(run_audit(conn, answer_from_key(conn, world), seed=args.seed))
+            after = sum(len(score(conn, r["list_id"], truth(world, *_list_key(conn, r["list_id"]))).wrong)
+                        for r in report if r["status"] == "active")
+            print(f"  depois da auditoria, pares confirmados errados nas listas que valem: {after}")
         if args.dry_run:
             conn.rollback()
             print("ensaio: tudo desfeito")

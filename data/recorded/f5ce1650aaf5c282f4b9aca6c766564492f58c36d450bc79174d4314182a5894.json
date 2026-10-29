@@ -1,0 +1,646 @@
+{
+ "image": "mercantil_ombu_2026-10.jpg",
+ "image_sha256": "f5ce1650aaf5c282f4b9aca6c766564492f58c36d450bc79174d4314182a5894",
+ "prompt": "prompts/transcribe_price_list.md",
+ "prompt_sha256": "61c7c0bd50a717794d9aa48706986d23caf1de2d91ac867e856aa88e4b8bc4a6",
+ "recorded_at": "2026-10-29",
+ "how": "duas leituras independentes, por dois subagentes do Claude Code com modelos diferentes; cada um viu só a foto e o prompt, em contexto separado, sem ver a leitura do outro",
+ "readings": [
+  {
+   "reader": "A",
+   "model_alias": "sonnet",
+   "header": [
+    "MERCANTIL OMBU - Lista de precios OCTUBRE 2026",
+    "Precios con IVA incluido. Consultar por cantidad."
+   ],
+   "lines": [
+    {
+     "code": "281",
+     "description": "Aceite Girasol Solclaro 900 ml",
+     "price": "2.727,67",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "654",
+     "description": "Arroz Molino Celeste 1 kg",
+     "price": "1.870,43",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "617",
+     "description": "Azucar Pradoluz Mascabo 1 kg",
+     "price": "1.364,18",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "658",
+     "description": "Cafe Molido Cerro Nublado 500 g",
+     "price": "14.079,52",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "320",
+     "description": "Cafe Molido Piedra Mora Torrado 250 g",
+     "price": "7.257,42",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "241",
+     "description": "Dulce De Leche Fontesur 1 kg",
+     "price": "5.883,06",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "775",
+     "description": "Fideos Dona Tomasa Tirabuzon 500 g",
+     "price": "1.164,53",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "119",
+     "description": "Fideos Molino Celeste Tirabuzon 500 g",
+     "price": "1.375,04",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "376",
+     "description": "Galletitas De Agua Molino Celeste Integrales 150 g",
+     "price": "882,33",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "640",
+     "description": "Galletitas De Agua Tres Lunas Integrales 150 g",
+     "price": "909,56",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "489",
+     "description": "Galletitas El Benteveo Limon 150 g",
+     "price": "964,37",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "396",
+     "description": "Galletitas El Benteveo Vainilla 150 g",
+     "price": "864,34",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "153",
+     "description": "Galletitas Molino Celeste Vainilla 150 g",
+     "price": "1.101,34",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "914",
+     "description": "Galletitas Tres Lunas Chocolate 150 g",
+     "price": "1.117,57",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "603",
+     "description": "Galletitas Tres Lunas Vainilla 300 g",
+     "price": "2.306,38",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "487",
+     "description": "Harina Dona Tomasa 000 1 kg",
+     "price": "1.018,75",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "900",
+     "description": "Harina Granalba 000 1 kg",
+     "price": "988,23",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "574",
+     "description": "Harina Granalba Leudante 1 kg",
+     "price": "1.075,82",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "832",
+     "description": "Harina Molino Celeste Leudante 1 kg",
+     "price": "1.118,06",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "799",
+     "description": "Leche Larga Vida Fontesur Entera 1 L",
+     "price": "1.460,30",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "986",
+     "description": "Mayonesa Lagomar 500 g",
+     "price": "2.813,04",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "523",
+     "description": "Te Tres Lunas Verde x 50 u",
+     "price": "3.881,29",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "776",
+     "description": "Te Vientoverde x 50 u",
+     "price": "3.512,38",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "287",
+     "description": "Yerba Mate Dona Tomasa Suave 2 kg",
+     "price": "7.050,94",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "770",
+     "description": "Yerba Mate Dona Tomasa Suave 500 g",
+     "price": "2.187,08",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "513",
+     "description": "Yerba Mate Piedra Mora 2 kg",
+     "price": "9.091,23",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "520",
+     "description": "Yerba Mate Tres Lunas 1 kg",
+     "price": "4.739,11",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "370",
+     "description": "Yerba Mate Tres Lunas Compuesta 1 kg",
+     "price": "5.176,32",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "606",
+     "description": "Yerba Mate Tres Lunas Compuesta Organica 2 kg",
+     "price": "10.908,28",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "710",
+     "description": "Yerba Mate Vientoverde Compuesta 1 kg",
+     "price": "4.750,12",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "846",
+     "description": "Yerba Mate Vientoverde Suave 1 kg",
+     "price": "4.778,12",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "922",
+     "description": "Yerba Mate Vientoverde Suave 2 kg",
+     "price": "9.014,47",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "643",
+     "description": "Agua Mineral Arroyo Manso Sin Gas 1,5 L",
+     "price": "932,11",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "408",
+     "description": "Agua Mineral Solclaro Con Gas 500 ml Pack x 6",
+     "price": "2.135,43",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "229",
+     "description": "Agua Mineral Solclaro Sin Gas 500 ml",
+     "price": "376,31",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "276",
+     "description": "Cerveza Cerro Nublado Negra 473 ml",
+     "price": "1.972,89",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "789",
+     "description": "Cerveza Cumbrefria 1 L",
+     "price": "3.115,51",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "174",
+     "description": "Gaseosa Cola Cumbrefria 500 ml Pack x 6",
+     "price": "3.796,23",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "504",
+     "description": "Gaseosa Cola Cumbrefria Zero 2,25 L",
+     "price": "2.785,36",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "792",
+     "description": "Gaseosa Cola Solclaro 500 ml",
+     "price": "682,10",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "930",
+     "description": "Gaseosa Cola Solclaro 500 ml Pack x 6",
+     "price": "3.843,56",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "272",
+     "description": "Gaseosa Cola Solclaro Zero 500 ml",
+     "price": "715,41",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "942",
+     "description": "Jabon En Polvo Nubalta 800 g",
+     "price": "4.377,63",
+     "section": "LIMPIEZA",
+     "doubt": false
+    },
+    {
+     "code": "927",
+     "description": "Pan El Benteveo Pancho x 6 u",
+     "price": "2.073,56",
+     "section": "PANIFICADOS",
+     "doubt": false
+    }
+   ]
+  },
+  {
+   "reader": "B",
+   "model_alias": "haiku",
+   "header": [
+    "MERCANTIL OMBU - Lista de precios OCTUBRE 2026",
+    "Precios con IVA incluido. Consultar por cantidad."
+   ],
+   "lines": [
+    {
+     "code": "281",
+     "description": "Aceite Girasol Solclaro 900 ml",
+     "price": "2.727,67",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "654",
+     "description": "Arroz Molino Celeste 1 kg",
+     "price": "1.870,43",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "617",
+     "description": "Azucar Pradoluz Mascabo 1 kg",
+     "price": "1.364,18",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "658",
+     "description": "Cafe Molido Cerro Nublado 500 g",
+     "price": "14.079,52",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "320",
+     "description": "Cafe Molido Piedra Mora Torrado 250 g",
+     "price": "7.257,42",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "241",
+     "description": "Dulce De Leche Fontesur 1 kg",
+     "price": "5.883,06",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "775",
+     "description": "Fideos Dona Tomasa Tirabuzon 500 g",
+     "price": "1.164,53",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "119",
+     "description": "Fideos Molino Celeste Tirabuzon 500 g",
+     "price": "1.375,04",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "376",
+     "description": "Galletitas De Agua Molino Celeste Integrales 150 g",
+     "price": "882,33",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "640",
+     "description": "Galletitas De Agua Tres Lunas Integrales 150 g",
+     "price": "909,56",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "489",
+     "description": "Galletitas El Benteveo Limon 150 g",
+     "price": "964,37",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "396",
+     "description": "Galletitas El Benteveo Vainilla 150 g",
+     "price": "864,34",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "153",
+     "description": "Galletitas Molino Celeste Vainilla 150 g",
+     "price": "1.101,34",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "914",
+     "description": "Galletitas Tres Lunas Chocolate 150 g",
+     "price": "1.117,57",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "603",
+     "description": "Galletitas Tres Lunas Vainilla 300 g",
+     "price": "2.306,38",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "487",
+     "description": "Harina Dona Tomasa 000 1 kg",
+     "price": "1.018,75",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "900",
+     "description": "Harina Granalba 000 1 kg",
+     "price": "988,23",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "574",
+     "description": "Harina Granalba Leudante 1 kg",
+     "price": "1.075,82",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "832",
+     "description": "Harina Molino Celeste Leudante 1 kg",
+     "price": "1.118,06",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "799",
+     "description": "Leche Larga Vida Fontesur Entera 1 L",
+     "price": "1.460,30",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "986",
+     "description": "Mayonesa Lagomar 500 g",
+     "price": "2.813,04",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "523",
+     "description": "Te Tres Lunas Verde x 50 u",
+     "price": "3.881,29",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "776",
+     "description": "Te Vientoverde x 50 u",
+     "price": "3.512,38",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "287",
+     "description": "Yerba Mate Dona Tomasa Suave 2 kg",
+     "price": "7.050,94",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "770",
+     "description": "Yerba Mate Dona Tomasa Suave 500 g",
+     "price": "2.187,08",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "513",
+     "description": "Yerba Mate Piedra Mora 2 kg",
+     "price": "9.091,23",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "520",
+     "description": "Yerba Mate Tres Lunas 1 kg",
+     "price": "4.739,11",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "370",
+     "description": "Yerba Mate Tres Lunas Compuesta 1 kg",
+     "price": "5.176,32",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "606",
+     "description": "Yerba Mate Tres Lunas Compuesta Organica 2 kg",
+     "price": "10.908,28",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "710",
+     "description": "Yerba Mate Vientoverde Compuesta 1 kg",
+     "price": "4.750,12",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "846",
+     "description": "Yerba Mate Vientoverde Suave 1 kg",
+     "price": "4.778,12",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "922",
+     "description": "Yerba Mate Vientoverde Suave 2 kg",
+     "price": "9.014,47",
+     "section": "ALMACEN",
+     "doubt": false
+    },
+    {
+     "code": "643",
+     "description": "Agua Mineral Arroyo Manso Sin Gas 1,5 L",
+     "price": "932,11",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "408",
+     "description": "Agua Mineral Solclaro Con Gas 500 ml Pack x 6",
+     "price": "2.135,43",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "229",
+     "description": "Agua Mineral Solclaro Sin Gas 500 ml",
+     "price": "376,31",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "276",
+     "description": "Cerveza Cerro Nublado Negra 473 ml",
+     "price": "1.972,89",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "789",
+     "description": "Cerveza Cumbrefria 1 L",
+     "price": "3.115,51",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "174",
+     "description": "Gaseosa Cola Cumbrefria 500 ml Pack x 6",
+     "price": "3.796,23",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "504",
+     "description": "Gaseosa Cola Cumbrefria Zero 2,25 L",
+     "price": "2.785,36",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "792",
+     "description": "Gaseosa Cola Solclaro 500 ml",
+     "price": "682,10",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "930",
+     "description": "Gaseosa Cola Solclaro 500 ml Pack x 6",
+     "price": "3.843,56",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "272",
+     "description": "Gaseosa Cola Solclaro Zero 500 ml",
+     "price": "715,41",
+     "section": "BEBIDAS",
+     "doubt": false
+    },
+    {
+     "code": "942",
+     "description": "Jabon En Polvo Nubalta 800 g",
+     "price": "4.377,63",
+     "section": "LIMPIEZA",
+     "doubt": false
+    },
+    {
+     "code": "927",
+     "description": "Pan El Benteveo Pancho x 6 u",
+     "price": "2.073,56",
+     "section": "PANIFICADOS",
+     "doubt": false
+    }
+   ]
+  }
+ ]
+}

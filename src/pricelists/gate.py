@@ -70,7 +70,11 @@ def independent_count(path: Path) -> int:
 
 
 def check_count(new: ParsedList, tolerance: float = 0.05) -> CheckResult:
-    counted = independent_count(new.path)
+    if new.file_format == "image":
+        # na foto, o que entra são as linhas em que as duas leituras concordam, contra a leitura mais longa
+        counted, tolerance = new.counted or 0, 0.10
+    else:
+        counted = independent_count(new.path)
     read = len(new.lines)
     ok = read >= 1 and abs(read - counted) <= max(1, tolerance * counted)
     return CheckResult(1, "count", ok, {"read": read, "counted": counted})
@@ -112,6 +116,8 @@ def _independent_rows(path: Path) -> dict:
 
 
 def check_fidelity(new: ParsedList, sample: int = 10) -> CheckResult:
+    if new.file_format == "image":
+        return CheckResult(2, "fidelity", None, {}, "na foto, a releitura é a segunda leitura da IA")
     if not new.lines:
         return CheckResult(2, "fidelity", False, {"compared": 0, "equal": 0}, "nenhuma linha lida")
     rows = _independent_rows(new.path)

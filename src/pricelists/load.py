@@ -101,6 +101,12 @@ def insert_list(conn: psycopg.Connection, parsed: ParsedList, supplier: str, per
             "normalized_text, price, case_units, section, type_code, brand_code, variety_code, size, unit, pack, "
             "units_per_box, leftover, noise, ambiguous) "
             "values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", params)
+        # a foto: as linhas em que as duas leituras discordaram vão para a fila de suporte, não para a lista
+        cur.executemany(
+            "insert into public.reading_disagreement (price_list_id, item_code, reason, reading_a, reading_b) "
+            "values (%s, %s, %s, %s, %s)",
+            [(list_id, d.item_code, d.why, json.dumps(d.reading_a, ensure_ascii=False) if d.reading_a else None,
+              json.dumps(d.reading_b, ensure_ascii=False) if d.reading_b else None) for d in parsed.disagreements])
     return list_id
 
 

@@ -34,12 +34,16 @@ def write_world(world: World, out: Path, ref: Reference | None = None) -> list[P
 def write_list(price_list: PriceList, folder: Path, ref: Reference | None = None,
                price_text: Callable[[ListLine], str] | None = None) -> Path:
     """Uma lista no formato do fornecedor. `price_text` muda como o preço sai no PDF (para as corrupções)."""
+    from .photo import write_photo
+
     ref = ref or load()
-    fmt = ref.suppliers[price_list.supplier].file_format
-    path = folder / f"{price_list.name}.{fmt}"
+    supplier = ref.suppliers[price_list.supplier]
+    path = folder / f"{price_list.name}.{supplier.extension}"
     folder.mkdir(parents=True, exist_ok=True)
-    if fmt == "xlsx":
+    if supplier.file_format == "xlsx":
         _write_xlsx(price_list, path, ref)
+    elif supplier.file_format == "image":
+        write_photo(price_list, path, ref)
     else:
         _write_pdf(price_list, path, ref, price_text or (lambda line: _ars(line.price)))
     return path

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import random
+import unicodedata
 
 from ..reference import Reference
 from .spec import PACK_UNITS, WRITINGS
@@ -10,10 +11,13 @@ from .spec import PACK_UNITS, WRITINGS
 def format_size(size: int, unit: str, style: str) -> str:
     """O conteúdo escrito como cada um escreve: «1 KG» no cadastro, «1KG» na Norte, «X 1 KG» na Andina."""
     if unit == "un":
-        return {"catalog": f"X {size} U", "mayorista_norte": f"X{size}", "distribuidora_andina": f"X {size} U"}[style]
+        return {"catalog": f"X {size} U", "mayorista_norte": f"X{size}", "distribuidora_andina": f"X {size} U",
+                "mercantil_ombu": f"x {size} u"}[style]
     big = size >= 1000
     value = size / 1000 if big else size
     text = f"{value:g}"
+    if style == "mercantil_ombu":
+        return f"{text.replace('.', ',')} {('kg' if big else 'g') if unit == 'g' else ('L' if big else 'ml')}"
     if style == "catalog":
         return f"{text.replace('.', ',')} {('KG' if big else 'G') if unit == 'g' else ('L' if big else 'ML')}"
     if style == "mayorista_norte":
@@ -23,7 +27,13 @@ def format_size(size: int, unit: str, style: str) -> str:
 
 def format_pack(style: str) -> str:
     return {"catalog": f"PACK X {PACK_UNITS}", "mayorista_norte": f"PACK X{PACK_UNITS}",
-            "distribuidora_andina": f"PACK X {PACK_UNITS}"}[style]
+            "distribuidora_andina": f"PACK X {PACK_UNITS}", "mercantil_ombu": f"Pack x {PACK_UNITS}"}[style]
+
+
+def _title(text: str) -> str:
+    """Maiúsculas e minúsculas, sem acento: a impressora do Mercantil Ombú não tem Ñ nem acento."""
+    plain = "".join(c for c in unicodedata.normalize("NFKD", text) if not unicodedata.combining(c))
+    return " ".join(w.capitalize() for w in plain.split())
 
 
 def catalog_description(p, ref: Reference) -> str:
@@ -50,10 +60,12 @@ def supplier_description(p, supplier: str, ref: Reference, rng: random.Random,
     brand = ref.brands[p.brand].name
     brand_text = rng.choice((brand, *w.brands.get(p.brand, ()))) if supplier == "distribuidora_andina" else brand
     size_text = format_size(p.size, t.unit, supplier)
-    if supplier == "mayorista_norte":
-        parts = [type_text, brand_text, variety_text, p.extra, size_text]
-    else:
+    if supplier == "distribuidora_andina":
         parts = [brand_text, type_text, variety_text, p.extra, size_text]
+    elif supplier == "mercantil_ombu":
+        parts = [_title(type_text), _title(brand_text), _title(variety_text), _title(p.extra), size_text]
+    else:
+        parts = [type_text, brand_text, variety_text, p.extra, size_text]
     if p.pack > 1:
         parts.append(format_pack(supplier))
     if noise:

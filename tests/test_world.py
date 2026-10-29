@@ -95,6 +95,8 @@ def test_files_carry_every_line(tmp_path):
             ws = load_workbook(tmp_path / "lists" / f"{pl.name}.xlsx").active
             rows = list(ws.iter_rows(min_row=6, values_only=True))
             assert [str(r[1]) for r in rows] == [ln.supplier_code for ln in pl.lines]
+        elif pl.supplier == "mercantil_ombu":
+            assert (tmp_path / "lists" / f"{pl.name}.jpg").stat().st_size > 50_000
         else:
             with pdfplumber.open(tmp_path / "lists" / f"{pl.name}.pdf") as pdf:
                 text = "\n".join(page.extract_text() for page in pdf.pages)

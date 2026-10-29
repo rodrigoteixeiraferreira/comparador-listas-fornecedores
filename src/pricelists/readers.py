@@ -41,6 +41,9 @@ class ParsedList:
     vat_included: bool | None  # o que a própria lista declara; None quando não diz
     columns: dict[str, str] = field(default_factory=dict)  # papel -> rótulo de onde saiu (planilha)
     lines: list[RawLine] = field(default_factory=list)
+    # só na foto: as linhas em que as duas leituras discordaram, e a contagem da leitura mais longa
+    disagreements: list = field(default_factory=list)
+    counted: int | None = None
 
 
 def file_hash(path: Path) -> str:
@@ -157,4 +160,7 @@ def read_list(path: Path) -> ParsedList:
         return read_xlsx(path)
     if suffix == ".pdf":
         return read_pdf(path)
-    raise ValueError(f"formato sem leitor: {suffix} (a foto entra com a leitura de IA)")
+    if suffix in (".jpg", ".jpeg", ".png"):
+        from .ai_reader import double_read
+        return double_read(path)
+    raise ValueError(f"formato sem leitor: {suffix}")

@@ -22,6 +22,8 @@ def test_parse_ars():
 def test_every_line_is_read(world_on_disk):
     world, out = world_on_disk
     for pl in world.lists:
+        if pl.supplier == "mercantil_ombu":
+            continue  # a foto não tem leitor determinístico: tests/test_audit_and_photo.py
         ext = "xlsx" if pl.supplier == "mayorista_norte" else "pdf"
         parsed = read_list(out / "lists" / f"{pl.name}.{ext}")
         assert parsed.period == pl.period
@@ -37,6 +39,6 @@ def test_every_line_is_read(world_on_disk):
             assert [ln.case_units for ln in parsed.lines] == [ln.units_per_box for ln in pl.lines]
 
 
-def test_photo_has_no_reader_yet(tmp_path):
+def test_unknown_format_has_no_reader(tmp_path):
     with pytest.raises(ValueError):
-        read_list(tmp_path / "lista.jpg")
+        read_list(tmp_path / "lista.docx")

@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 
 from ..reference import Reference, load
 from .render import catalog_description, supplier_description
-from .spec import BRAND_PRICE, PACK_UNITS, PERIODS, TYPES, WRITINGS
+from .spec import BRAND_PRICE, PACK_UNITS, SCHEDULE, TYPES, WRITINGS
 
 VAT = 1.21
 
@@ -180,7 +180,7 @@ class _ListMaker:
         self.catalog_by_market = {c.market_id: c for c in world.catalog}
         self.catalog_keys = {self.market[c.market_id].key for c in world.catalog}
         self.vat_included = ref.suppliers[supplier].prices_include_vat
-        self.price_level = {"mayorista_norte": 0.96, "distribuidora_andina": 1.0}[supplier]
+        self.price_level = SCHEDULE[supplier]["price_level"]
         self.codes_used: set[str] = set()
         # o que o fornecedor mantém entre os meses: código, descrição, caixa, preço e se vende por caixa
         self.items: dict[int, dict] = {}
@@ -189,6 +189,8 @@ class _ListMaker:
         while True:
             if self.supplier == "mayorista_norte":
                 code = str(self.rng.randrange(10000, 99999))
+            elif self.supplier == "mercantil_ombu":
+                code = str(self.rng.randrange(100, 999))
             else:
                 code = f"A{self.rng.randrange(1000, 9999)}"
             if code not in self.codes_used:
@@ -199,7 +201,7 @@ class _ListMaker:
         p = self.market[market_id]
         writing = WRITINGS[self.supplier]
         unknown = p.type_code in writing.unknown_types and self.rng.random() < 0.04
-        noise = self.rng.random() < 0.06
+        noise = self.rng.random() < 0.06 and bool(writing.noise)
         spec = TYPES[p.type_code]
         units = self.rng.choice(spec.box_units)
         by_box = (self.supplier == "distribuidora_andina"
@@ -309,11 +311,12 @@ def build_world(seed: int, ref: Reference | None = None) -> World:
     market = build_market(ref, rng)
     catalog = build_catalog(market, ref, rng)
     world = World(seed, market, catalog, [])
-    for supplier in WRITINGS:
+    for supplier, plan in SCHEDULE.items():
         maker = _ListMaker(supplier, world, ref, random.Random(f"{seed}:{supplier}"))
-        maker.first_month()
-        world.lists.append(maker.snapshot(PERIODS[0], plant_price_errors=False))
-        inflation = 1.04 if supplier == "mayorista_norte" else 1.035
-        maker.next_month(inflation)
-        world.lists.append(maker.snapshot(PERIODS[1], plant_price_errors=True))
+        maker.first_month(*plan["shares"])
+        for i, period in enumerate(plan["periods"]):
+            if i > 0:
+                maker.next_month(plan["inflation"])
+            # os erros de digitação entram a partir da segunda lista de quem manda mais de uma
+            world.lists.append(maker.snapshot(period, plant_price_errors=i > 0))
     return world

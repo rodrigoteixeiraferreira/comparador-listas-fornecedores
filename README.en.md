@@ -188,4 +188,4 @@ Faithful replicas of the panel's design, with fictional data. The product was in
 ## Contact
 
 Rodrigo Teixeira Ferreira — automation, data and AI agents. Open to contracts and full-time roles.
-[GitHub](https://github.com/rodrigoteixeiraferreira)
+[LinkedIn](https://www.linkedin.com/in/rodrigo-teixeira-ferreira-2b00a31b6/) · [flechamedicina@gmail.com](mailto:flechamedicina@gmail.com) · [GitHub](https://github.com/rodrigoteixeiraferreira)

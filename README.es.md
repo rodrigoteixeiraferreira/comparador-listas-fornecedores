@@ -194,4 +194,4 @@ Réplicas fieles al diseño del panel, con datos ficticios.
 ## Contacto
 
 Rodrigo Teixeira Ferreira — automatización, datos y agentes de IA. Abierto a contratos y a puestos fijos.
-[GitHub](https://github.com/rodrigoteixeiraferreira)
+[LinkedIn](https://www.linkedin.com/in/rodrigo-teixeira-ferreira-2b00a31b6/) · [flechamedicina@gmail.com](mailto:flechamedicina@gmail.com) · [GitHub](https://github.com/rodrigoteixeiraferreira)

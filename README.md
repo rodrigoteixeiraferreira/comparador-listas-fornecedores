@@ -200,4 +200,4 @@ Réplicas fiéis ao desenho do painel, com dados fictícios. O produto era em es
 ## Contato
 
 Rodrigo Teixeira Ferreira — automação, dados e agentes de IA. Aberto a contratos e a vaga fixa.
-[GitHub](https://github.com/rodrigoteixeiraferreira)
+[LinkedIn](https://www.linkedin.com/in/rodrigo-teixeira-ferreira-2b00a31b6/) · [flechamedicina@gmail.com](mailto:flechamedicina@gmail.com) · [GitHub](https://github.com/rodrigoteixeiraferreira)

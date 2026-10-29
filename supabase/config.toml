@@ -1,0 +1,7 @@
+# Configuração da CLI do Supabase para o banco local (o CI usa «supabase db start»).
+# O que não está aqui fica no padrão da CLI.
+project_id = "comparador-listas-fornecedores"
+
+[db]
+port = 54322
+major_version = 17

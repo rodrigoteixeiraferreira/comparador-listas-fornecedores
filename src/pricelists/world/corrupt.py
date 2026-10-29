@@ -33,7 +33,10 @@ CORRUPTIONS = (
     Corruption("codes_renumbered", ("xlsx", "pdf"), 3, "o fornecedor renumerou todos os códigos"),
     Corruption("prices_x10", ("xlsx", "pdf"), 5, "todos os preços com um zero a mais"),
     Corruption("vat_flipped", ("xlsx", "pdf"), 5, "o IVA declarado não é o dos preços"),
+    # as que só a identificação pega (precisam do banco: tests/test_pipeline_db.py)
+    Corruption("descriptions_truncated", ("xlsx", "pdf"), 6, "o sistema do fornecedor cortou cada palavra em 3 letras"),
 )
+FILE_CHECKS = (1, 2, 3, 5)
 
 
 def corrupt(price_list: PriceList, kind: str, folder: Path, seed: int = 0, ref: Reference | None = None) -> Path:
@@ -48,6 +51,8 @@ def corrupt(price_list: PriceList, kind: str, folder: Path, seed: int = 0, ref: 
         prefix = "" if pl.supplier == "mayorista_norte" else "B"
         codes = rng.sample(range(10000, 99999), len(pl.lines))
         pl.lines = [replace(ln, supplier_code=f"{prefix}{c}") for ln, c in zip(pl.lines, codes)]
+    elif kind == "descriptions_truncated":
+        pl.lines = [replace(ln, description=" ".join(w[:3] for w in ln.description.split())) for ln in pl.lines]
     elif kind == "prices_x10":
         pl.lines = [replace(ln, price=round(ln.price * 10, 2)) for ln in pl.lines]
     elif kind == "vat_flipped":

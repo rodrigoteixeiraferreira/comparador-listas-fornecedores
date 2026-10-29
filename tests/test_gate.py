@@ -5,7 +5,7 @@ from pricelists.gate import Pair, check_continuity, check_price_vs_cost, check_z
 from pricelists.readers import read_list
 from pricelists.reference import load
 from pricelists.world import build_world
-from pricelists.world.corrupt import CORRUPTIONS, corrupt
+from pricelists.world.corrupt import CORRUPTIONS, FILE_CHECKS, corrupt
 from pricelists.world.files import write_list
 
 SEEDS = (1, 2, 3)
@@ -21,7 +21,7 @@ def _cases():
         for supplier in ("mayorista_norte", "distribuidora_andina"):
             fmt = ref.suppliers[supplier].file_format
             for c in CORRUPTIONS:
-                if fmt in c.formats:
+                if fmt in c.formats and c.expected_check in FILE_CHECKS:
                     yield pytest.param(seed, supplier, c, id=f"{seed}-{supplier}-{c.code}")
 
 

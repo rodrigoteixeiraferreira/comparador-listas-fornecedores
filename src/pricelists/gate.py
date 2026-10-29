@@ -174,15 +174,23 @@ class Pair:
     supplier_code: str
     product_id: int | None
     confirmed: bool
-    compatible: bool  # marca, tamanho e unidade batem com o produto
+    compatible: bool  # o que a linha diz (marca, tamanho, unidade…) bate com o produto
     unit_price: float | None  # preço da unidade de venda, com IVA
     cost: float | None  # custo do produto no cadastro
+    level: int | None = None  # 1 é decisão humana: não é confirmação automática
+    reason: str | None = None  # «price_far_from_cost»: a identidade bateu, só o preço destoou do custo
+
+    @property
+    def identified(self) -> bool:
+        return self.confirmed or self.reason == "price_far_from_cost"
 
 
 def check_price_vs_cost(pairs: list[Pair]) -> CheckResult:
-    ratios = [p.unit_price / p.cost for p in pairs if p.confirmed and p.unit_price and p.cost]
+    """Mede também os pares que a cascata deixou em revisão só pelo preço: se medisse só os confirmados, a lista
+    inteira com um zero a mais não teria par confirmado nenhum e passaria sem ser medida."""
+    ratios = [p.unit_price / p.cost for p in pairs if p.identified and p.unit_price and p.cost]
     if len(ratios) < 5:
-        return CheckResult(4, "price_vs_cost", None, {"pairs": len(ratios)}, "poucos pares confirmados")
+        return CheckResult(4, "price_vs_cost", None, {"pairs": len(ratios)}, "poucos pares identificados")
     median = statistics.median(ratios)
     return CheckResult(4, "price_vs_cost", 0.8 <= median <= 1.5, {"pairs": len(ratios), "median": round(median, 3)})
 
@@ -199,7 +207,9 @@ def check_continuity(pairs: list[Pair], previous_pairs: list[Pair] | None) -> Ch
 
 
 def check_zero(pairs: list[Pair]) -> CheckResult:
-    bad = sum(1 for p in pairs if p.confirmed and not p.compatible)
+    """O critério de aceite: nenhum par confirmado automaticamente que contradiga o produto. A decisão humana
+    (nível 1) fica fora: quando ela contradiz a leitura, quem errou foi o extrator, não o par."""
+    bad = sum(1 for p in pairs if p.confirmed and p.level != 1 and not p.compatible)
     return CheckResult(7, "zero_check", bad == 0, {"incompatible_confirmed": bad})
 
 

@@ -1,0 +1,32 @@
+# credenciais: só o .env.example entra, e só com os nomes
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.vercel/
+
+# Supabase CLI
+supabase/.temp/
+supabase/.branches/
+
+# saídas geradas pela demo (o gerador recria a partir da semente)
+saida/
+
+# sistema
+.DS_Store
+Thumbs.db
+desktop.ini

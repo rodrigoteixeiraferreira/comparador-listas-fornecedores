@@ -1,0 +1,45 @@
+type_code,code,is_default,name_es,name_pt,name_en
+yerba_mate,traditional,true,TRADICIONAL,tradicional,traditional
+yerba_mate,mild,false,SUAVE,suave,mild
+yerba_mate,with_herbs,false,COMPUESTA,com ervas,with herbs
+cookies,chocolate,false,CHOCOLATE,chocolate,chocolate
+cookies,vanilla,false,VAINILLA,baunilha,vanilla
+cookies,lemon,false,LIMON,limão,lemon
+crackers,classic,true,CLASICAS,clássica,classic
+crackers,whole_wheat,false,INTEGRALES,integral,whole wheat
+sunflower_oil,standard,true,,,
+rice,long_grain,true,LARGO FINO,agulhinha,long grain
+rice,brown,false,INTEGRAL,integral,brown
+rice,parboiled,false,PARBOIL,parboilizado,parboiled
+pasta,spaghetti,false,SPAGHETTI,espaguete,spaghetti
+pasta,fusilli,false,TIRABUZON,parafuso,fusilli
+pasta,penne,false,MOSTACHOL,penne,penne
+sugar,standard,true,,,
+flour,type_000,false,000,tipo 000,type 000
+flour,type_0000,false,0000,tipo 0000,type 0000
+flour,self_rising,false,LEUDANTE,com fermento,self-rising
+milk,whole,false,ENTERA,integral,whole
+milk,skim,false,DESCREMADA,desnatado,skim
+mayonnaise,classic,true,CLASICA,tradicional,classic
+mayonnaise,light,false,LIGHT,light,light
+dulce_de_leche,classic,true,CLASICO,tradicional,classic
+dulce_de_leche,baking,false,REPOSTERO,confeiteiro,baker's
+tomato_puree,standard,true,,,
+tuna,in_water,false,AL NATURAL,ao natural,in water
+tuna,in_oil,false,EN ACEITE,em óleo,in oil
+ground_coffee,classic,true,CLASICO,tradicional,regular
+ground_coffee,sugar_roasted,false,TORRADO,torrado com açúcar,sugar-roasted
+tea_bags,black,true,NEGRO,preto,black
+tea_bags,green,false,VERDE,verde,green
+cola,regular,true,,,
+cola,zero,false,ZERO,zero,zero
+water,still,false,SIN GAS,sem gás,still
+water,sparkling,false,CON GAS,com gás,sparkling
+beer,lager,true,RUBIA,clara,lager
+beer,dark,false,NEGRA,escura,dark
+dish_soap,lemon,false,LIMON,limão,lemon
+dish_soap,aloe,false,ALOE VERA,aloe vera,aloe vera
+bleach,standard,true,,,
+laundry_powder,standard,true,,,
+buns,hamburger,false,HAMBURGUESA,hambúrguer,hamburger
+buns,hot_dog,false,PANCHO,cachorro-quente,hot dog

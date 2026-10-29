@@ -24,7 +24,8 @@ supabase/.temp/
 supabase/.branches/
 
 # saídas geradas pela demo (o gerador recria a partir da semente)
-saida/
+generated/
+*.egg-info/
 
 # sistema
 .DS_Store

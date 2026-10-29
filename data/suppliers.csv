@@ -1,0 +1,3 @@
+code,name,file_format,prices_include_vat
+mayorista_norte,Mayorista Norte,xlsx,false
+distribuidora_andina,Distribuidora Andina,pdf,true

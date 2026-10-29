@@ -12,7 +12,8 @@ export default async function StatusPage({ params }: PageProps<"/[lang]">) {
   const lang = localeOf((await params).lang);
   const d = getDictionary(lang);
   const db = await requireUser(lang);
-  const { status: s, lists, rules } = await getStatus(db);
+  const { status: s, lists, rules: unordered } = await getStatus(db);
+  const rules = unordered.toSorted((a, b) => RULE_ORDER.indexOf(a.code) - RULE_ORDER.indexOf(b.code));
   const n = (v: number) => integer(v, lang);
   const share = (v: number) => `${(100 * v) / Math.max(s.products, 1)}%`;
 
@@ -109,7 +110,9 @@ export default async function StatusPage({ params }: PageProps<"/[lang]">) {
                 <Th right>{d.status.columns.lines}</Th>
                 <Th right>{d.status.columns.confirmed}</Th>
                 <Th right>{d.status.columns.review}</Th>
-                <Th right>{d.status.columns.notCarried}</Th>
+                <Th right wrap>
+                  {d.status.columns.notCarried}
+                </Th>
                 <Th>{d.status.columns.gate}</Th>
               </tr>
             </thead>
@@ -118,12 +121,12 @@ export default async function StatusPage({ params }: PageProps<"/[lang]">) {
                 <tr key={l.price_list_id} className={l.status === "active" ? "" : "text-ink-3"}>
                   <Td>
                     <p className={l.status === "active" ? "font-semibold" : ""}>{l.supplier_name}</p>
-                    <p className="text-sm text-ink-3">
+                    <p className="text-sm whitespace-nowrap text-ink-3">
                       {d.formats[l.file_format]} · {l.file_name}
                     </p>
                   </Td>
-                  <Td>{month(l.period, lang)}</Td>
-                  <Td>
+                  <Td nowrap>{month(l.period, lang)}</Td>
+                  <Td nowrap>
                     <span
                       className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
                         l.status === "active"
@@ -184,7 +187,7 @@ export default async function StatusPage({ params }: PageProps<"/[lang]">) {
                       {d.modes[r.mode]}
                     </span>
                   </Td>
-                  <Td right>
+                  <Td right nowrap>
                     {r.sample === null ? "—" : fill(d.status.sampleOf, { n: n(r.sample), total: n(r.population ?? 0) })}
                   </Td>
                   <Td right>
@@ -204,6 +207,9 @@ export default async function StatusPage({ params }: PageProps<"/[lang]">) {
   );
 }
 
+// as regras na ordem da cascata
+const RULE_ORDER = ["barcode", "supplier_code", "attributes", "price_doubt_identity", "high_similarity"];
+
 const GATE_CODES = ["count", "fidelity", "structure", "price_vs_cost", "price_change", "continuity", "zero_check"];
 
 function ruleDecision(r: RuleRow, d: Dictionary): string {
@@ -215,7 +221,7 @@ function ruleDecision(r: RuleRow, d: Dictionary): string {
 function Gate({ checks, d }: { checks: GateCheck[] | null; d: Dictionary }) {
   if (!checks) return <span className="text-ink-3">—</span>;
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-[3px] whitespace-nowrap">
       {[...checks]
         .sort((a, b) => a.number - b.number)
         .map((c) => {
@@ -225,7 +231,7 @@ function Gate({ checks, d }: { checks: GateCheck[] | null; d: Dictionary }) {
             <span
               key={c.number}
               title={`${c.number}. ${name}${detail}`}
-              className={`flex h-7 w-7 items-center justify-center rounded-md text-xs font-bold ${
+              className={`flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded text-xs font-bold ${
                 c.passed === true ? "bg-good-soft text-good" : c.passed === false ? "bg-bad-soft text-bad" : "bg-surface-2 text-ink-3"
               }`}
             >
@@ -250,10 +256,19 @@ function Row({ children }: { children: ReactNode }) {
   return <div className="rounded-xl border border-line bg-surface px-6 py-4 text-lg">{children}</div>;
 }
 
-function Th({ children, right }: { children: ReactNode; right?: boolean }) {
-  return <th className={`px-5 py-3 font-medium ${right ? "text-right" : ""}`}>{children}</th>;
+// o cabeçalho fica numa linha; o longo (wrap) quebra em duas, no máximo
+function Th({ children, right, wrap }: { children: ReactNode; right?: boolean; wrap?: boolean }) {
+  return (
+    <th className={`px-3 py-3 font-medium ${right ? "text-right" : ""} ${wrap ? "max-w-28" : "whitespace-nowrap"}`}>
+      {children}
+    </th>
+  );
 }
 
-function Td({ children, right }: { children: ReactNode; right?: boolean }) {
-  return <td className={`px-5 py-4 align-middle ${right ? "text-right tabular-nums" : ""}`}>{children}</td>;
+function Td({ children, right, nowrap }: { children: ReactNode; right?: boolean; nowrap?: boolean }) {
+  return (
+    <td className={`px-3 py-4 align-middle ${right ? "text-right tabular-nums" : ""} ${nowrap ? "whitespace-nowrap" : ""}`}>
+      {children}
+    </td>
+  );
 }

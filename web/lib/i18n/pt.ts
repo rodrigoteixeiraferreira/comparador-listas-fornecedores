@@ -44,7 +44,7 @@ export const pt = {
     suppliers1: "1 fornecedor",
     suppliers2: "2 fornecedores",
     suppliers3: "3 fornecedores",
-    compared: "{n} têm preço de dois ou mais fornecedores para comparar.",
+    compared: "{n} têm dois ou mais preços em disputa (o preço em dúvida fica de fora).",
     howTitle: "Como o sistema sabe",
     howLead: "Cada par entre uma linha de fornecedor e um produto da loja tem a sua prova. Contam as listas em vigor.",
     how: {

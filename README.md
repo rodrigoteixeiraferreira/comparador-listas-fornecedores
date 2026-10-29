@@ -69,6 +69,7 @@ flowchart TD
 | Leitura de listas e extração | Python (openpyxl, pdfplumber) |
 | Leitura de foto | dupla leitura por dois modelos diferentes do Claude, com as respostas gravadas |
 | Testes | pytest; no GitHub Actions, contra o Supabase local em Docker |
+| Painel | Next.js 16, React 19, Tailwind 4; login do Supabase; português, espanhol e inglês |
 | Desenvolvimento | Claude Code com o MCP do Supabase |
 
 ## A demo
@@ -101,6 +102,25 @@ A auditoria por amostra da semente 1 (o auditor da demo responde pelo gabarito):
 | semelhança alta (em teste) | 18 | 18 | — | **desligada** |
 | identidade com preço em dúvida (em teste) | 1 | 0 | até 95% | segue em teste: amostra pequena não decide |
 
+### O painel
+
+Três telas, em português, espanhol e inglês, que leem o banco da demo com login: o estado da base, a comparação de
+preços e a fila de revisão. O que o sistema decide aparece no idioma de quem lê; a linha do fornecedor fica como
+veio, marcada «original». Os três botões da revisão gravam de verdade. O painel não fica no ar: roda no localhost, e a
+demonstração ao vivo é sob pedido.
+
+![A fila de revisão: «não é», «a loja não tem» e «é este»; no fim, a comparação com o par decidido pela pessoa](docs/img/pt/revisao.gif)
+
+No GIF, a pessoa diz «não é» ao primeiro candidato de uma linha e depois «a loja não tem»: a fila cai de 25 para 24.
+Na farinha com o preço digitado com um zero a mais, os atributos são idênticos e ela diz «é este». Na comparação, a
+farinha aparece identificada pela pessoa, mas fora da disputa até alguém conferir o preço.
+
+<p>
+<a href="docs/img/pt/tela_estado.png"><img src="docs/img/pt/tela_estado.png" width="270" alt="Estado da base"></a>
+<a href="docs/img/pt/tela_comparacao.png"><img src="docs/img/pt/tela_comparacao.png" width="270" alt="Comparação de preços"></a>
+<a href="docs/img/pt/tela_revisao.png"><img src="docs/img/pt/tela_revisao.png" width="270" alt="Fila de revisão"></a>
+</p>
+
 ### Como rodar
 
 ```bash
@@ -113,6 +133,10 @@ supabase db start                                # Postgres local com as migraç
 export DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres
 pytest                                           # agora com a prova no banco
 python -m pricelists.pipeline --seed 1           # carrega, revisa, audita e mostra a conta de cada lista
+
+cd web && npm install
+cp .env.example .env.local                       # a URL e a chave pública do Supabase (supabase status)
+npm run dev                                      # o painel em http://localhost:3000, com um usuário do Supabase
 ```
 
 ### O que tem onde
@@ -123,10 +147,11 @@ python -m pricelists.pipeline --seed 1           # carrega, revisa, audita e mos
 | `src/pricelists/extract.py` | o extrator de atributos: o que não reconhece fica como «palavra que sobra», nunca adivinhado |
 | `src/pricelists/readers.py`, `ai_reader.py` | os leitores de planilha e PDF; a dupla leitura da foto |
 | `src/pricelists/gate.py` | o portão de 7 conferências |
-| `supabase/migrations/` | o esquema, a cascata em SQL, as views e o RLS |
+| `supabase/migrations/` | o esquema, a cascata em SQL, as views, o RLS e os três botões da revisão |
 | `src/pricelists/audit.py` | a auditoria por amostra |
 | `prompts/`, `data/recorded/` | o prompt da leitura de foto e as duas leituras gravadas |
-| `tests/` | a prova: gerador, extrator, leitores, portão, cascata e auditoria |
+| `tests/` | a prova: gerador, extrator, leitores, portão, cascata, auditoria e o painel no banco |
+| `web/` | o painel: as três telas, os três idiomas e o script dos prints e do GIF |
 
 ### Os limites
 
@@ -138,7 +163,8 @@ python -m pricelists.pipeline --seed 1           # carrega, revisa, audita e mos
   ficaram gravadas: a demo não chama a API. Nesta foto limpa as duas leituras concordaram em tudo; a fila de
   discordância está provada por um teste que planta divergência.
 - **O revisor e o auditor da demo são simulados:** respondem pelo gabarito. No original, uma pessoa respondeu.
-- **O painel** (comparação, fila de revisão e estado da base) é o próximo passo.
+- **O painel roda no localhost**, com o login do Supabase. Pela API, só os três botões da revisão gravam, por funções
+  do banco que exigem login; as tabelas não aceitam escrita de quem entra pelo painel.
 
 ## As decisões que mais pesaram
 

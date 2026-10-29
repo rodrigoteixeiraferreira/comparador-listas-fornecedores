@@ -4,7 +4,7 @@
 //   node scripts/capture.mjs --lang pt                   os três prints, em docs/img/pt
 //   node scripts/capture.mjs --lang pt --gif             e o GIF da revisão (grava decisões no banco)
 //
-// O GIF responde a fila de verdade: depois dele, devolver o banco ao ponto de partida com
+// Os prints saem em 2x e com 256 cores. O GIF responde a fila de verdade: depois dele, devolver o banco ao ponto de partida com
 // `python -m pricelists.pipeline --seed 1`, antes do próximo idioma.
 import { spawnSync } from "node:child_process";
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -23,6 +23,13 @@ const lang = option("lang", "pt");
 const base = option("base", "http://localhost:3000");
 const out = join(REPO, "docs", "img", lang);
 const VIEW = { width: 1280, height: 800 };
+const PYTHON = join(REPO, ".venv", process.platform === "win32" ? "Scripts/python.exe" : "bin/python");
+
+// as imagens passam pelo images.py (Pillow, no Python da demo): 256 cores nos prints, o GIF montado dos quadros
+function images(...params) {
+  const run = spawnSync(PYTHON, [join(WEB, "scripts", "images.py"), ...params], { stdio: "inherit" });
+  if (run.status !== 0) throw new Error(`images.py ${params[0]} falhou`);
+}
 
 function env(name) {
   const line = readFileSync(join(WEB, ".env.local"), "utf8")
@@ -65,6 +72,7 @@ await page.waitForURL(`${base}/${lang}`);
 await shot("", "tela_estado.png", 3200);
 await shot("/compare", "tela_comparacao.png", 1700);
 await shot("/review", "tela_revisao.png", 1700);
+images("png", ...["tela_estado.png", "tela_comparacao.png", "tela_revisao.png"].map((f) => join(out, f)));
 
 if (args.includes("--gif")) {
   // os quadros: a fila, o «não é», o «a loja não tem», o «é este» na linha do preço longe do custo e, na comparação,
@@ -81,21 +89,20 @@ if (args.includes("--gif")) {
   const focus = async (locator) => {
     await locator.evaluate((el) => window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 24 }));
   };
+  // o clique termina quando nenhum botão está mais gravando: aí a tela já voltou com a fila nova
   const decide = async (button) => {
-    const done = page.waitForResponse((r) => r.request().method() === "POST");
     await button.click();
-    await done;
-    await page.waitForLoadState("networkidle");
+    await page.waitForSelector("button[data-decision]:disabled", { timeout: 3000 }).catch(() => {});
+    await page.waitForFunction(() => !document.querySelector("button[data-decision]:disabled"), null, {
+      timeout: 30000,
+    });
   };
 
   await open("/review");
   await frame(2200);
 
-  // uma linha que a loja não tem, com a proposta que difere em tamanho ou na palavra que sobra
-  const line = page
-    .locator('article[data-reason="text_similarity"]')
-    .filter({ has: page.locator('li[data-differs*="size"], li[data-differs*="line-only"]').first() })
-    .first();
+  // uma linha sem candidato de atributos iguais: os candidatos vêm da semelhança de texto e diferem em algo
+  const line = page.locator('article[data-reason="text_similarity"]').first();
   const lineId = await line.getAttribute("data-line");
   const card = page.locator(`article[data-line="${lineId}"]`);
   await focus(card);
@@ -130,12 +137,7 @@ if (args.includes("--gif")) {
   await frame(4000);
 
   writeFileSync(join(frames, "durations.json"), JSON.stringify(durations));
-  const python = join(REPO, ".venv", process.platform === "win32" ? "Scripts/python.exe" : "bin/python");
-  const gif = spawnSync(python, [join(WEB, "scripts", "frames_to_gif.py"), frames, join(out, "revisao.gif")], {
-    stdio: "inherit",
-  });
-  if (gif.status !== 0) throw new Error("o GIF não foi montado");
-  console.log(`  ${lang}/revisao.gif`);
+  images("gif", frames, join(out, "revisao.gif"));
 }
 
 await browser.close();

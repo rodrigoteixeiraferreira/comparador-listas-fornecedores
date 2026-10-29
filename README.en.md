@@ -18,7 +18,8 @@ This repository has two parts:
   world and an answer key to check every decision.
 
 The demo's brands, suppliers, prices and barcodes are invented. The screens of the original shown here are replicas
-with fictional data. The images and the detailed docs are in Portuguese; the original product was in Spanish.
+with fictional data. The demo panel screens below are in English; the other images and the detailed docs are in Portuguese, and the
+original product was in Spanish.
 
 ## The problem
 
@@ -66,6 +67,7 @@ flowchart TD
 | List reading and extraction | Python (openpyxl, pdfplumber) |
 | Photo reading | double reading by two different Claude models, with the answers recorded |
 | Tests | pytest; on GitHub Actions, against the local Supabase in Docker |
+| Panel | Next.js 16, React 19, Tailwind 4; Supabase login; Portuguese, Spanish and English |
 | Development | Claude Code with the Supabase MCP |
 
 ## The demo
@@ -98,6 +100,26 @@ The sample audit of seed 1 (the demo's auditor answers from the answer key):
 | high similarity (on trial) | 18 | 18 | — | **switched off** |
 | identity with doubtful price (on trial) | 1 | 0 | up to 95% | stays on trial: a small sample decides nothing |
 
+### The panel
+
+Three screens, in Portuguese, Spanish and English, reading the demo database behind a login: database status, price
+comparison and review queue. What the system decides shows in the reader's language; the supplier's line stays as it
+came, tagged «original». The three review buttons really record. The panel isn't online: it runs on localhost, and
+the live demo is on request.
+
+![The review queue: «it is not», «the store doesn't carry it» and «it is this one»; at the end, the comparison with the pair the person decided](docs/img/en/revisao.gif)
+
+In the GIF, the person says «it is not» to a line's first candidate and then «the store doesn't carry it»: the queue
+drops from 25 to 24. On the flour whose price was typed with an extra zero, the attributes are identical and they say
+«it is this one». In the comparison, the flour shows as identified by the person, but out of the competition until
+someone checks the price.
+
+<p>
+<a href="docs/img/en/tela_estado.png"><img src="docs/img/en/tela_estado.png" width="270" alt="Database status"></a>
+<a href="docs/img/en/tela_comparacao.png"><img src="docs/img/en/tela_comparacao.png" width="270" alt="Price comparison"></a>
+<a href="docs/img/en/tela_revisao.png"><img src="docs/img/en/tela_revisao.png" width="270" alt="Review queue"></a>
+</p>
+
 ### How to run
 
 ```bash
@@ -110,6 +132,10 @@ supabase db start                                # local Postgres with the migra
 export DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres
 pytest                                           # now with the proof in the database
 python -m pricelists.pipeline --seed 1           # loads, reviews, audits and shows each list's numbers
+
+cd web && npm install
+cp .env.example .env.local                       # the Supabase URL and public key (supabase status)
+npm run dev                                      # the panel at http://localhost:3000, with a Supabase user
 ```
 
 ### What is where
@@ -120,10 +146,11 @@ python -m pricelists.pipeline --seed 1           # loads, reviews, audits and sh
 | `src/pricelists/extract.py` | the attribute extractor: what it doesn't recognize stays as a «leftover word», never guessed |
 | `src/pricelists/readers.py`, `ai_reader.py` | the spreadsheet and PDF readers; the photo's double reading |
 | `src/pricelists/gate.py` | the 7-check gate |
-| `supabase/migrations/` | the schema, the SQL cascade, the views and RLS |
+| `supabase/migrations/` | the schema, the SQL cascade, the views, RLS and the three review buttons |
 | `src/pricelists/audit.py` | the sample audit |
 | `prompts/`, `data/recorded/` | the photo-reading prompt and the two recorded readings |
-| `tests/` | the proof: generator, extractor, readers, gate, cascade and audit |
+| `tests/` | the proof: generator, extractor, readers, gate, cascade, audit and the panel in the database |
+| `web/` | the panel: the three screens, the three languages and the script for the screenshots and the GIF |
 
 ### The limits
 
@@ -135,7 +162,8 @@ python -m pricelists.pipeline --seed 1           # loads, reviews, audits and sh
   were recorded: the demo does not call the API. On this clean photo both readings agreed on everything; the
   disagreement queue is proven by a test that plants divergence.
 - **The demo's reviewer and auditor are simulated:** they answer from the answer key. In the original, a person did.
-- **The panel** (comparison, review queue and database status) is the next step.
+- **The panel runs on localhost**, with the Supabase login. Through the API, only the three review buttons write, via
+  database functions that require a login; the tables accept no writes from panel users.
 
 ## The decisions that mattered most
 

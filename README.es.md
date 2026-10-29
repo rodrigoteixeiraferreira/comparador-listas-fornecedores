@@ -18,8 +18,8 @@ Este repositorio tiene dos partes:
   inventado y una plantilla de respuestas para verificar cada decisión.
 
 Las marcas, los proveedores, los precios y los códigos de barras de la demo son inventados. Las pantallas del
-original que aparecen acá son réplicas con datos ficticios. Las imágenes y los documentos detallados están en
-portugués.
+original que aparecen acá son réplicas con datos ficticios. Las pantallas del panel de la demo están en
+español; las demás imágenes y los documentos detallados, en portugués.
 
 ## El problema
 
@@ -68,6 +68,7 @@ flowchart TD
 | Lectura de listas y extracción | Python (openpyxl, pdfplumber) |
 | Lectura de foto | doble lectura por dos modelos distintos de Claude, con las respuestas grabadas |
 | Pruebas | pytest; en GitHub Actions, contra el Supabase local en Docker |
+| Panel | Next.js 16, React 19, Tailwind 4; login de Supabase; portugués, español e inglés |
 | Desarrollo | Claude Code con el MCP de Supabase |
 
 ## La demo
@@ -100,6 +101,26 @@ La auditoría por muestra de la semilla 1 (el auditor de la demo responde con la
 | similitud alta (en prueba) | 18 | 18 | — | **desactivada** |
 | identidad con precio dudoso (en prueba) | 1 | 0 | hasta 95 % | sigue en prueba: una muestra chica no decide |
 
+### El panel
+
+Tres pantallas, en portugués, español e inglés, que leen la base de la demo con login: el estado de la base, la
+comparación de precios y la cola de revisión. Lo que decide el sistema aparece en el idioma de quien lee; la línea
+del proveedor queda como vino, marcada «original». Los tres botones de la revisión graban de verdad. El panel no está
+en línea: corre en localhost, y la demostración en vivo es a pedido.
+
+![La cola de revisión: «no es», «la tienda no lo tiene» y «es este»; al final, la comparación con el par que decidió la persona](docs/img/es/revisao.gif)
+
+En el GIF, la persona dice «no es» al primer candidato de una línea y después «la tienda no lo tiene»: la cola baja de
+25 a 24. En la harina con el precio tipeado con un cero de más, los atributos son idénticos y dice «es este». En la
+comparación, la harina aparece identificada por la persona, pero fuera de la competencia hasta que alguien revise el
+precio.
+
+<p>
+<a href="docs/img/es/tela_estado.png"><img src="docs/img/es/tela_estado.png" width="270" alt="Estado de la base"></a>
+<a href="docs/img/es/tela_comparacao.png"><img src="docs/img/es/tela_comparacao.png" width="270" alt="Comparación de precios"></a>
+<a href="docs/img/es/tela_revisao.png"><img src="docs/img/es/tela_revisao.png" width="270" alt="Cola de revisión"></a>
+</p>
+
 ### Cómo correrla
 
 ```bash
@@ -112,6 +133,10 @@ supabase db start                                # Postgres local con las migrac
 export DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres
 pytest                                           # ahora con la prueba en la base
 python -m pricelists.pipeline --seed 1           # carga, revisa, audita y muestra la cuenta de cada lista
+
+cd web && npm install
+cp .env.example .env.local                       # la URL y la clave pública de Supabase (supabase status)
+npm run dev                                      # el panel en http://localhost:3000, con un usuario de Supabase
 ```
 
 ### Qué hay dónde
@@ -122,10 +147,11 @@ python -m pricelists.pipeline --seed 1           # carga, revisa, audita y muest
 | `src/pricelists/extract.py` | el extractor de atributos: lo que no reconoce queda como «palabra que sobra», nunca se adivina |
 | `src/pricelists/readers.py`, `ai_reader.py` | los lectores de planilla y PDF; la doble lectura de la foto |
 | `src/pricelists/gate.py` | el portón de 7 controles |
-| `supabase/migrations/` | el esquema, la cascada en SQL, las vistas y el RLS |
+| `supabase/migrations/` | el esquema, la cascada en SQL, las vistas, el RLS y los tres botones de la revisión |
 | `src/pricelists/audit.py` | la auditoría por muestra |
 | `prompts/`, `data/recorded/` | el prompt de lectura de la foto y las dos lecturas grabadas |
-| `tests/` | la prueba: generador, extractor, lectores, portón, cascada y auditoría |
+| `tests/` | la prueba: generador, extractor, lectores, portón, cascada, auditoría y el panel en la base |
+| `web/` | el panel: las tres pantallas, los tres idiomas y el script de las capturas y del GIF |
 
 ### Los límites
 
@@ -139,7 +165,8 @@ python -m pricelists.pipeline --seed 1           # carga, revisa, audita y muest
   la cola de discrepancias está probada por una prueba que planta divergencias.
 - **El revisor y el auditor de la demo son simulados:** responden con la plantilla. En el original, respondió una
   persona.
-- **El panel** (comparación, cola de revisión y estado de la base) es el próximo paso.
+- **El panel corre en localhost**, con el login de Supabase. Por la API, solo graban los tres botones de la revisión,
+  con funciones de la base que exigen login; las tablas no aceptan escritura de quien entra por el panel.
 
 ## Las decisiones que más pesaron
 

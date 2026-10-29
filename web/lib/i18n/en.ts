@@ -44,7 +44,7 @@ export const en: Dictionary = {
     suppliers1: "1 supplier",
     suppliers2: "2 suppliers",
     suppliers3: "3 suppliers",
-    compared: "{n} have prices from two or more suppliers to compare.",
+    compared: "{n} have two or more competing prices (a doubtful price stays out).",
     howTitle: "How the system knows",
     howLead: "Every pair between a supplier line and a store product has its proof. Lists in force count.",
     how: {

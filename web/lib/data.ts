@@ -160,8 +160,7 @@ export async function getComparison(db: SupabaseClient, filter: CompareFilter, l
     .from("product_overview")
     .select("*")
     .not("suppliers", "lt", filter.min)
-    .order("section_code")
-    .order("description");
+    .order("product_id"); // a ordem do cadastro da loja
   if (filter.section) query = query.eq("section_code", filter.section);
   // a busca vale para a descrição da loja, a marca e o tipo no idioma de quem lê; só letras, números e espaço
   const q = filter.q.replace(/[^\p{L}\p{N} ]/gu, " ").trim();

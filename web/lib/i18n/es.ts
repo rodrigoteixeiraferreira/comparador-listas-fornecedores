@@ -44,7 +44,7 @@ export const es: Dictionary = {
     suppliers1: "1 proveedor",
     suppliers2: "2 proveedores",
     suppliers3: "3 proveedores",
-    compared: "{n} tienen precio de dos o más proveedores para comparar.",
+    compared: "{n} tienen dos o más precios en competencia (el precio dudoso queda afuera).",
     howTitle: "Cómo lo sabe",
     howLead:
       "Cada par entre una línea de proveedor y un producto de la tienda tiene su prueba. Cuentan las listas vigentes.",

@@ -9,6 +9,7 @@ usando o que se aprendeu. Para cada lista: o portão, a cascata e a conta que im
 from __future__ import annotations
 
 import argparse
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -137,6 +138,7 @@ def _print_list(r: dict, out) -> None:
 
 
 def main() -> None:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # o terminal do Windows redirecionado não é UTF-8
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--seed", type=int, default=1)
     parser.add_argument("--dry-run", action="store_true", help="faz tudo numa transação e desfaz no fim")

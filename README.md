@@ -12,7 +12,7 @@ supermercado e diz, produto por produto, quem vende mais barato. O critério de 
 
 Este repositório tem duas partes:
 
-- **o estudo de caso** do sistema que entreguei a um supermercado de bairro na Argentina em outubro de 2026: o
+- **o estudo de caso** do sistema que entreguei a um supermercado na Argentina em outubro de 2026: o
   problema, as decisões e os números. O código e os dados desse projeto são do cliente e não estão aqui;
 - **uma demo reescrita do zero**, com dados fictícios, que roda e se prova sozinha: o mesmo desenho, um mundo
   inventado e um gabarito para conferir cada decisão.
@@ -22,7 +22,7 @@ réplicas, com dados fictícios.
 
 ## O problema
 
-Um supermercado de bairro recebe dezenas de listas de preço por mês, cada fornecedor no seu formato e com as suas
+Um supermercado recebe dezenas de listas de preço por mês, cada fornecedor no seu formato e com as suas
 abreviaturas. O comprador tinha montado um comparador com um assistente de IA. O backup desse sistema mostrou dois
 números:
 
@@ -188,14 +188,14 @@ Os detalhes do original estão em [`docs/`](docs/), em português:
 
 ## Resultados do projeto original
 
-Em menos de quatro semanas, do banco ao painel:
+Em menos de quatro semanas, do banco ao painel. Entregue em 17/10/2026; a cobertura é a da base em 30/10/2026.
 
 | Medida | Valor |
 |---|---|
 | Pares confirmados com marca, tamanho ou unidade incompatível | **0**, em todas as rodadas de checagem |
-| Produtos vendidos com fornecedor identificado | 3.002 de 4.353 (69%) |
-| Produtos com preço de dois ou mais fornecedores | 1.596 (no sistema anterior, 199) |
-| Listas lidas | 88, de planilha, PDF e foto |
+| Produtos da loja com fornecedor identificado | 4.026 de 4.929 (81,7%) |
+| Produtos com preço de dois ou mais fornecedores | 2.569 (52%); no sistema anterior, 199 (3,9%) |
+| Fornecedores com lista lida | 74, de planilha, PDF e foto |
 | Erro da IA nos pares confirmados, por amostra | 1 em 145 (0,7%); até 3% com 95% de confiança |
 | Fornecedor desconhecido (prova cega) | 0 pares errados; 0 a 4 itens por 100 linhas na mesa do comprador |
 | Tempo de abertura das telas | de 10 a 19 s (ou erro) para menos de 2 s |

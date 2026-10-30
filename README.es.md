@@ -12,7 +12,7 @@ un supermercado y dice, producto por producto, quién vende más barato. El crit
 
 Este repositorio tiene dos partes:
 
-- **el estudio de caso** del sistema que entregué a un supermercado de barrio en Argentina en octubre de 2026: el
+- **el estudio de caso** del sistema que entregué a un supermercado en Argentina en octubre de 2026: el
   problema, las decisiones y los números. El código y los datos de ese proyecto son del cliente y no están acá;
 - **una demo reescrita desde cero**, con datos ficticios, que corre y se prueba sola: el mismo diseño, un mundo
   inventado y una plantilla de respuestas para verificar cada decisión.
@@ -23,7 +23,7 @@ español; las demás imágenes y los documentos detallados, en portugués.
 
 ## El problema
 
-Un supermercado de barrio recibe decenas de listas de precios por mes, cada proveedor con su formato y sus
+Un supermercado recibe decenas de listas de precios por mes, cada proveedor con su formato y sus
 abreviaturas. El comprador había armado un comparador con un asistente de IA. El backup de ese sistema mostró dos
 números:
 
@@ -188,14 +188,14 @@ Los detalles del original están en [`docs/`](docs/), en portugués.
 
 ## Resultados del proyecto original
 
-En menos de cuatro semanas, de la base al panel:
+En menos de cuatro semanas, de la base al panel. Entregado el 17/10/2026; la cobertura es la de la base al 30/10/2026.
 
 | Medida | Valor |
 |---|---|
 | Pares confirmados con marca, tamaño o unidad incompatible | **0**, en todas las rondas de control |
-| Productos vendidos con proveedor identificado | 3.002 de 4.353 (69 %) |
-| Productos con precio de dos o más proveedores | 1.596 (en el sistema anterior, 199) |
-| Listas leídas | 88, de planilla, PDF y foto |
+| Productos del supermercado con proveedor identificado | 4.026 de 4.929 (81,7 %) |
+| Productos con precio de dos o más proveedores | 2.569 (52 %); en el sistema anterior, 199 (3,9 %) |
+| Proveedores con lista leída | 74, de planilla, PDF y foto |
 | Error de la IA en los pares confirmados, por muestra | 1 en 145 (0,7 %); hasta 3 % con 95 % de confianza |
 | Proveedor desconocido (prueba ciega) | 0 pares equivocados; 0 a 4 ítems por 100 líneas en la mesa del comprador |
 | Tiempo de apertura de las pantallas | de 10 a 19 s (o error) a menos de 2 s |

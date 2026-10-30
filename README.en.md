@@ -12,7 +12,7 @@ catalog and tells, product by product, who sells cheapest. There was a single ac
 
 This repository has two parts:
 
-- **the case study** of the system I delivered to a neighborhood supermarket in Argentina in October 2026: the
+- **the case study** of the system I delivered to a supermarket in Argentina in October 2026: the
   problem, the decisions and the numbers. That project's code and data belong to the client and are not here;
 - **a demo rewritten from scratch** with fictional data, which runs and proves itself: the same design, an invented
   world and an answer key to check every decision.
@@ -23,7 +23,7 @@ original product was in Spanish.
 
 ## The problem
 
-A neighborhood supermarket receives dozens of price lists a month, each supplier with its own format and
+A supermarket receives dozens of price lists a month, each supplier with its own format and
 abbreviations. The buyer had built a comparator with an AI assistant. That system's backup showed two numbers:
 
 - out of 5,129 products, only 199 (3.9%) had prices from two or more suppliers;
@@ -184,14 +184,14 @@ The original's details are in [`docs/`](docs/), in Portuguese.
 
 ## Results of the original project
 
-In less than four weeks, from the database to the panel:
+In less than four weeks, from the database to the panel. Delivered on 17 Oct 2026; coverage figures are from the database on 30 Oct 2026.
 
 | Measure | Value |
 |---|---|
 | Confirmed pairs with incompatible brand, size or unit | **0**, in every checking round |
-| Products sold with an identified supplier | 3,002 of 4,353 (69%) |
-| Products with prices from two or more suppliers | 1,596 (in the previous system, 199) |
-| Lists read | 88, from spreadsheets, PDFs and photos |
+| Store products with an identified supplier | 4,026 of 4,929 (81.7%) |
+| Products with prices from two or more suppliers | 2,569 (52%); in the previous system, 199 (3.9%) |
+| Suppliers whose lists were read | 74, from spreadsheets, PDFs and photos |
 | AI error on confirmed pairs, by sample | 1 in 145 (0.7%); with 95% confidence, at most 3% |
 | Unknown supplier (blind test) | 0 wrong pairs; 0 to 4 items per 100 lines on the buyer's desk |
 | Screen load time | from 10–19 s (or an error) to under 2 s |
